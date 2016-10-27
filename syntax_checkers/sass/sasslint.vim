@@ -1,5 +1,5 @@
 "============================================================================
-"File:        sass_lint.vim
+"File:        sass-lint.vim
 "Description: Sass style and syntax checker plugin for Syntastic
 "Maintainer:  Gregory Cornelius <contact@gregorycornelius.com>
 "License:     This program is free software. It comes without any warranty,
@@ -8,25 +8,46 @@
 "             Want To Public License, Version 2, as published by Sam Hocevar.
 "             See http://sam.zoy.org/wtfpl/COPYING for more details.
 "============================================================================
-if exists('g:loaded_syntastic_sass_sass_lint_checker')
+if exists('g:loaded_syntastic_sass_sasslint_checker')
     finish
 endif
-let g:loaded_syntastic_sass_sass_lint_checker = 1
+let g:loaded_syntastic_sass_sasslint_checker = 1
 
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! SyntaxCheckers_sass_sass_lint_IsAvailable() dict
+function! SyntaxCheckers_sass_sasslint_IsAvailable() dict
     if !executable(self.getExec())
         return 0
     endif
     return syntastic#util#versionIsAtLeast(self.getVersion(), [1, 4])
 endfunction
 
-function! SyntaxCheckers_sass_sass_lint_GetLocList() dict
+function! SyntaxCheckers_sass_sasslint_GetLocList() dict
 
-    " Use eslint compact format
-    let makeprg = self.makeprgBuild({ 'args_before': '-v -f compact' })
+    let argsbefore = '-v -f compact'
+    let sass_lint_config_file = '.sass-lint.yml'
+
+    if exists('g:sass_lint_config') || exists('b:sass_lint_config')
+        if exists('b:sass_lint_config')
+            let sass_lint_config = b:sass_lint_config
+        else
+            let sass_lint_config = g:sass_lint_config
+        endif
+    else
+        let found_config = syntastic#util#findFileInParent(sass_lint_config_file, expand('%:p:h'))
+        echomsg found_config
+
+        if found_config !=# ''
+           let sass_lint_config = fnamemodify(found_config, ':p')
+        endif
+    endif
+
+    if exists('l:sass_lint_config')
+        let argsbefore = argsbefore . ' -c ' . sass_lint_config
+    endif
+
+    let makeprg = self.makeprgBuild({ 'args_before': argsbefore })
 
     let errorformat =
         \ '%E%f: line %l\, col %c\, Error - %m,' .
@@ -42,7 +63,7 @@ endfunction
 
 call g:SyntasticRegistry.CreateAndRegisterChecker({
     \ 'filetype': 'sass',
-    \ 'name': 'sass_lint',
+    \ 'name': 'sasslint',
     \ 'exec': 'sass-lint' })
 
 let &cpo = s:save_cpo

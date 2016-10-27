@@ -1,5 +1,5 @@
 "============================================================================
-"File:        sass_lint.vim
+"File:        sasslint.vim
 "Description: Sass style and syntax checker plugin for Syntastic
 "Maintainer:  Gregory Cornelius <contact@gregorycornelius.com>
 "License:     This program is free software. It comes without any warranty,
@@ -8,13 +8,13 @@
 "             Want To Public License, Version 2, as published by Sam Hocevar.
 "             See http://sam.zoy.org/wtfpl/COPYING for more details.
 "============================================================================
-if exists('g:loaded_syntastic_scss_sass_lint_checker')
+if exists('g:loaded_syntastic_scss_sasslint_checker')
     finish
 endif
-let g:loaded_syntastic_scss_sass_lint_checker = 1
+let g:loaded_syntastic_scss_sasslint_checker = 1
 
 call g:SyntasticRegistry.CreateAndRegisterChecker({
     \ 'filetype': 'scss',
-    \ 'name': 'sass_lint',
-    \ 'redirect': 'sass/sass_lint' })
+    \ 'name': 'sasslint',
+    \ 'redirect': 'sass/sasslint' })
 
