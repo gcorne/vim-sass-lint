@@ -36,7 +36,6 @@ function! SyntaxCheckers_sass_sasslint_GetLocList() dict
         endif
     else
         let found_config = syntastic#util#findFileInParent(sass_lint_config_file, expand('%:p:h'))
-        echomsg found_config
 
         if found_config !=# ''
            let sass_lint_config = fnamemodify(found_config, ':p')
