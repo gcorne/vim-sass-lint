@@ -18,8 +18,8 @@ Plugin 'gcorne/vim-sass-lint'
 3. Enable the `sasslint` checker in your `.vimrc`
 
 ```vimL
-let g:syntastic_sass_checkers=["sasslint"]
-let g:syntastic_scss_checkers=["sasslint"]
+let g:syntastic_sass_checkers=["sass_lint"]
+let g:syntastic_scss_checkers=["sass_lint"]
 ```
 
 ## Using with a config file
